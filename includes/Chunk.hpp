@@ -1,10 +1,12 @@
 #ifndef CHUNK_HPP
 # define CHUNK_HPP
 
+# include "Block.hpp"
+
 class Chunk
 {
 	private:
-		int		***blocks;
+		Block	****blocks;
 		int		glList;
 
 	public:
@@ -12,8 +14,8 @@ class Chunk
 		~Chunk();
 		void	draw();
 		void	render();
-		static const int	WIDTH = 32;
-		static const int	HEIGHT = 32;
+		static const int	WIDTH = 160;
+		static const int	HEIGHT = 1280;
 };
 
 #endif

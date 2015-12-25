@@ -1,6 +1,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
 #include "Window.hpp"
+#include "World.hpp"
 #include "EventListener.hpp"
 #include <iostream>
 
@@ -29,6 +30,8 @@ int main()
 	gluPerspective(90.f, 1.f, 1.f, 500.f);
 	double count = 0;
 	bool running = true;
+	World	*world = new World();
+	world->draw();
 	while (running)
 	{
 		EventListener::checkEvents(window);
@@ -36,51 +39,13 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glTranslatef(0.f, 0.f, -200.f);
+		glTranslatef(-80.f, 0.f, -300.f);
 		glRotatef(count * 5, 1.f, 0.f, 0.f);
 		glRotatef(count * 3, 0.f, 1.f, 0.f);
 		glRotatef(count * 9, 0.f, 0.f, 1.f);
-		glBegin(GL_QUADS);
-
-		glColor3f(1, 0, 0);
-		glVertex3f(-50.f, -50.f, -50.f);
-		glVertex3f(-50.f,  50.f, -50.f);
-		glVertex3f( 50.f,  50.f, -50.f);
-		glVertex3f( 50.f, -50.f, -50.f);
-
-		glColor3f(0, 1, 0);
-		glVertex3f(-50.f, -50.f, 50.f);
-		glVertex3f(-50.f,  50.f, 50.f);
-		glVertex3f( 50.f,  50.f, 50.f);
-		glVertex3f( 50.f, -50.f, 50.f);
-
-		glColor3f(0, 0, 1);
-		glVertex3f(-50.f, -50.f, -50.f);
-		glVertex3f(-50.f,  50.f, -50.f);
-		glVertex3f(-50.f,  50.f,  50.f);
-		glVertex3f(-50.f, -50.f,  50.f);
-
-		glColor3f(1, 1, 0);
-		glVertex3f(50.f, -50.f, -50.f);
-		glVertex3f(50.f,  50.f, -50.f);
-		glVertex3f(50.f,  50.f,  50.f);
-		glVertex3f(50.f, -50.f,  50.f);
-
-		glColor3f(1, 0, 1);
-		glVertex3f(-50.f, -50.f,  50.f);
-		glVertex3f(-50.f, -50.f, -50.f);
-		glVertex3f( 50.f, -50.f, -50.f);
-		glVertex3f( 50.f, -50.f,  50.f);
-
-		glColor3f(0, 1, 1);
-		glVertex3f(-50.f, 50.f,  50.f);
-		glVertex3f(-50.f, 50.f, -50.f);
-		glVertex3f( 50.f, 50.f, -50.f);
-		glVertex3f( 50.f, 50.f,  50.f);
-
-		glEnd();
+		world->render();
 		window.display();
-		count += 0.005;
+		count += 0.05;
 	}
 	return (0);
 }

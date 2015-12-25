@@ -2,6 +2,7 @@
 #include <vector>
 #include "World.hpp"
 #include "Chunk.hpp"
+#include <iostream>
 
 World::World()
 {

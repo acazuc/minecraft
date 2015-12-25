@@ -1,26 +1,34 @@
 #include <SFML/OpenGL.hpp>
 #include <stdlib.h>
+#include <iostream>
 #include "Chunk.hpp"
+#include "Block.hpp"
 
 Chunk::Chunk(int x, int z)
 {
 	unsigned int	x_count;
 	unsigned int	y_count;
+	unsigned int	z_count;
 
-	this->blocks = new int**[Chunk::WIDTH];
+	this->blocks = new Block***[Chunk::WIDTH];
 	x_count = 0;
 	while (x_count < Chunk::WIDTH)
 	{
-		this->blocks[x_count] = new int*[Chunk::HEIGHT];
+		this->blocks[x_count] = new Block**[Chunk::HEIGHT];
 		y_count = 0;
 		while (y_count < Chunk::HEIGHT)
 		{
-			this->blocks[x_count][y_count] = new int[Chunk::WIDTH];
+			this->blocks[x_count][y_count] = new Block*[Chunk::WIDTH];
+			z_count = 0;
+			while (z_count < Chunk::WIDTH)
+			{
+				this->blocks[x_count][y_count][z_count] = new Block(x + x_count, y_count, z + z_count, y_count < 10);
+				z_count++;
+			}
 			y_count++;
 		}
 		x_count++;
 	}
-	this->blocks[x][0][z] = 1;
 	this->glList = 0;
 }
 
@@ -28,6 +36,7 @@ Chunk::~Chunk()
 {
 	unsigned int	x_count;
 	unsigned int	y_count;
+	unsigned int	z_count;
 
 	x_count = 0;
 	while (x_count < Chunk::WIDTH)
@@ -35,6 +44,12 @@ Chunk::~Chunk()
 		y_count = 0;
 		while (y_count < Chunk::HEIGHT)
 		{
+			z_count = 0;
+			while (z_count < Chunk::WIDTH)
+			{
+				delete (this->blocks[x_count][y_count][z_count]);
+				z_count++;
+			}
 			delete (this->blocks[x_count][y_count]);
 			y_count++;
 		}
@@ -56,7 +71,7 @@ void	Chunk::draw()
 	}
 	glNewList(this->glList, GL_COMPILE);
 	x_count = 0;
-	while (x_count > Chunk::WIDTH)
+	while (x_count < Chunk::WIDTH)
 	{
 		y_count = 0;
 		while (y_count < Chunk::HEIGHT)
@@ -64,7 +79,7 @@ void	Chunk::draw()
 			z_count = 0;
 			while (z_count < Chunk::WIDTH)
 			{
-				this->blocks[x_count][y_count][z_count] = 5;
+				this->blocks[x_count][y_count][z_count]->draw();
 				z_count++;
 			}
 			y_count++;
@@ -76,5 +91,8 @@ void	Chunk::draw()
 
 void	Chunk::render()
 {
-	glCallList(this->glList);
+	if (this->glList != 0)
+	{
+		glCallList(this->glList);
+	}
 }
