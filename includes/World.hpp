@@ -2,11 +2,12 @@
 # define WORLD_HPP
 
 # include <vector>
+# include "Chunk.hpp"
 
 class World
 {
 	private:
-		std::vector<Chunk> chunks;
+		std::vector<Chunk*> chunks;
 
 	public:
 		World();

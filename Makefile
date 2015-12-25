@@ -8,7 +8,7 @@ OBJS_PATH = objs/
 
 INCLUDES_PATH = includes/
 
-SRCS_NAME = main.cpp Window.cpp EventListener.cpp World.cpp
+SRCS_NAME = main.cpp Window.cpp EventListener.cpp World.cpp Chunk.cpp
 
 OBJS_NAME = $(SRCS_NAME:.cpp=.o)
 

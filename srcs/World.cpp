@@ -1,10 +1,12 @@
 #include <SFML/OpenGL.hpp>
 #include <vector>
 #include "World.hpp"
+#include "Chunk.hpp"
 
 World::World()
 {
-	chunks.push_back(new Chunk(0, 0));
+	Chunk*	chunk = new Chunk(0, 0);
+	chunks.push_back(chunk);
 }
 
 World::~World()
@@ -14,7 +16,7 @@ World::~World()
 	count = 0;
 	while (count < chunks.size())
 	{
-		remove (chunks[count]);
+		delete (chunks[count]);
 		count++;
 	}
 }
@@ -26,7 +28,7 @@ void	World::draw()
 	count = 0;
 	while (count < chunks.size())
 	{
-		remove (chunks[count]);
+		chunks[count]->draw();
 		count++;
 	}
 }
@@ -38,7 +40,7 @@ void	World::render()
 	count = 0;
 	while (count < chunks.size())
 	{
-		remove (chunks[count]);
+		chunks[count]->render();
 		count++;
 	}
 }
