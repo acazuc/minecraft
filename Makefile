@@ -8,7 +8,7 @@ OBJS_PATH = objs/
 
 INCLUDES_PATH = includes/
 
-SRCS_NAME = main.cpp Window.cpp EventListener.cpp World.cpp Chunk.cpp Block.cpp Player.cpp
+SRCS_NAME = main.cpp Window.cpp EventListener.cpp World.cpp Chunk.cpp Block.cpp Player.cpp Texture.cpp
 
 OBJS_NAME = $(SRCS_NAME:.cpp=.o)
 
@@ -18,7 +18,7 @@ OBJS = $(addprefix $(OBJS_PATH), $(OBJS_NAME))
 
 NAME = minecraft
 
-LIBRARY = -lsfml-graphics -lsfml-window -lsfml-system -lglut -lGL -lGLU -lGLEW
+LIBRARY = -lsfml-graphics -lsfml-window -lsfml-system -lglut -lGL -lGLU -lGLEW -lz -I/usr/local/lib/ -lpng16 -lpng
 
 all: $(NAME)
 
@@ -81,7 +81,7 @@ $(OBJS_PATH)%.o: $(SRCS_PATH)%.cpp
 	@echo " - Compiling $<"
 	@$(CPP) $(CPPFLAGS) -I$(INCLUDES_PATH) -o $@ -c $<
 
-.PHONY: clean fclean re
+.PHONY: clean fclean re run
 
 clean:
 	@echo " - Clearing objects files"
@@ -92,3 +92,7 @@ fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
+
+run: all
+	@echo " - Running"
+	@./$(NAME)

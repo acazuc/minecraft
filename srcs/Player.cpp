@@ -22,8 +22,8 @@ void	Player::rotation(sf::Window *window)
 	delta = sf::Mouse::getPosition(*window) - *center;
 	sf::Mouse::setPosition(*center, *window);
 	delete (center);
-	this->rotationY += delta.x;
-	this->rotationX += delta.y;
+	this->rotationY += delta.x / 5.;
+	this->rotationX += delta.y / 5.;
 	if (this->rotationY < 0)
 		this->rotationY+= 360;
 	else if (this->rotationY > 360)

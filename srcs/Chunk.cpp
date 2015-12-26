@@ -10,6 +10,8 @@ Chunk::Chunk(int x, int z)
 	unsigned int	y_count;
 	unsigned int	z_count;
 
+	this->x = x;
+	this->z = z;
 	this->blocks = new Block***[Chunk::WIDTH];
 	x_count = 0;
 	while (x_count < Chunk::WIDTH)
@@ -22,7 +24,7 @@ Chunk::Chunk(int x, int z)
 			z_count = 0;
 			while (z_count < Chunk::WIDTH)
 			{
-				this->blocks[x_count][y_count][z_count] = new Block(x + x_count, y_count, z + z_count, y_count < 10);
+				this->blocks[x_count][y_count][z_count] = new Block(this, x + x_count, y_count, z + z_count, y_count < 10);
 				z_count++;
 			}
 			y_count++;
@@ -95,4 +97,19 @@ void	Chunk::render()
 	{
 		glCallList(this->glList);
 	}
+}
+
+Block	****Chunk::getBlocks()
+{
+	return (this->blocks);
+}
+
+int		Chunk::getX()
+{
+	return (this->x);
+}
+
+int		Chunk::getZ()
+{
+	return (this->z);
 }

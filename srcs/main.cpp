@@ -4,6 +4,7 @@
 #include "World.hpp"
 #include "Player.hpp"
 #include "EventListener.hpp"
+#include "Texture.hpp"
 #include <iostream>
 
 int main()
@@ -14,7 +15,7 @@ int main()
 	settings.antialiasingLevel = 4;
 	settings.majorVersion = 3;
 	settings.minorVersion = 0;
-	sf::Window window(sf::VideoMode(800, 600, 32), "SFML OpenGL", sf::Style::Default, settings);
+	sf::Window window(sf::VideoMode(1280, 720, 32), "SFML OpenGL", sf::Style::Default, settings);
 	glClearDepth(1.f);
 	glClearColor(0.48f, 0.65f, 0.99f, 0.0f);
 	window.setVerticalSyncEnabled(true);
@@ -26,13 +27,16 @@ int main()
 	// Mise en place d'une projection perspective
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(90.f, 1.f, (float)window.getSize().x/(float)window.getSize().y, 500.f);
+	gluPerspective(90.f, (float)window.getSize().x/(float)window.getSize().y, .1f, 500.f);
 	double count = 0;
 	bool running = true;
 	window.setMouseCursorVisible(false);
 	World	*world = new World();
-	world->draw();
+	glEnable(GL_TEXTURE_2D);
 	Player	*player = new Player();
+	Texture texture("stone.png");
+	texture.bind();
+	world->draw();
 	while (running)
 	{
 		EventListener::checkEvents(window);
