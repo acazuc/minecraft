@@ -75,6 +75,7 @@ $(NAME): $(OBJS)
 	@echo "                               EMAKEFILEM                                              "
 	@echo "                                 AKEFILE                                               "
 	@echo "                                   MAK                                                 "
+	@echo "\033[1;0m"
 	@$(CPP) $(CPPFLAGS) -o $(NAME) $^ $(LIBRARY) -I$(INCLUDES_PATH)
 
 $(OBJS_PATH)%.o: $(SRCS_PATH)%.cpp

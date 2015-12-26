@@ -7,13 +7,14 @@
 class World
 {
 	private:
-		std::vector<Chunk*> chunks;
+		std::vector<Chunk*> *chunks;
 
 	public:
 		World();
 		~World();
 		void	draw();
 		void	render();
+		std::vector<Chunk*>	*getChunks();
 };
 
 #endif

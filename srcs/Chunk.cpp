@@ -3,13 +3,16 @@
 #include <iostream>
 #include "Chunk.hpp"
 #include "Block.hpp"
+#include "World.hpp"
 
-Chunk::Chunk(int x, int z)
+Chunk::Chunk(World *world, int x, int z)
 {
 	unsigned int	x_count;
 	unsigned int	y_count;
 	unsigned int	z_count;
+	char			type;
 
+	this->world = world;
 	this->x = x;
 	this->z = z;
 	this->blocks = new Block***[Chunk::WIDTH];
@@ -24,7 +27,16 @@ Chunk::Chunk(int x, int z)
 			z_count = 0;
 			while (z_count < Chunk::WIDTH)
 			{
-				this->blocks[x_count][y_count][z_count] = new Block(this, x + x_count, y_count, z + z_count, y_count < 10);
+				type = 0;
+				if (y_count == 0)
+					type = 7;
+				if (y_count < 10)
+					type = 1;
+				else if (y_count < 13)
+					type = 3;
+				else if (y_count == 13)
+					type = 2;
+				this->blocks[x_count][y_count][z_count] = new Block(this, x + x_count, y_count, z + z_count, type);
 				z_count++;
 			}
 			y_count++;
@@ -102,6 +114,11 @@ void	Chunk::render()
 Block	****Chunk::getBlocks()
 {
 	return (this->blocks);
+}
+
+World	*Chunk::getWorld()
+{
+	return (this->world);
 }
 
 int		Chunk::getX()
