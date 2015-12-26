@@ -2,9 +2,12 @@
 
 class Window
 {
+	private:
+		sf::Window	*window;
+
 	public:
 		Window(int width, int height, std::string name);
-
-	private:
-		sf::Window* window;
+		sf::Window	*getWindow();
+		int			getWidth();
+		int			getHeight();
 };

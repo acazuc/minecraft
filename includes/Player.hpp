@@ -20,7 +20,7 @@ class Player
 
 	public:
 		Player(World *world);
-		void	rotation(sf::Window *window);
+		void	rotation(sf::Window &window);
 		void	move();
 		void	moveXZ(bool keyZ, bool keyQ, bool keyS, bool keyD);
 		void	moveUpDown(bool keyLShift, bool keySpace);

@@ -3,6 +3,26 @@
 #include "Texture.hpp"
 #include <iostream>
 
+void	glCheckError()
+{
+	GLenum err (glGetError());
+
+	while(err!=GL_NO_ERROR) {
+	    std::string error;
+
+    	switch(err) {
+    	    case GL_INVALID_OPERATION:				error="INVALID_OPERATION";				break;
+    	    case GL_INVALID_ENUM:					error="INVALID_ENUM";					break;
+    	    case GL_INVALID_VALUE:					error="INVALID_VALUE";					break;
+    	    case GL_OUT_OF_MEMORY:					error="OUT_OF_MEMORY";					break;
+    	    case GL_INVALID_FRAMEBUFFER_OPERATION:	error="INVALID_FRAMEBUFFER_OPERATION";	break;
+    	}
+
+    	std::cerr << "GL_" << error.c_str() << std::endl;
+    	err = glGetError();
+	}
+}
+
 Texture::Texture(std::string filename)
 {
 	//header for testing if it is a png
@@ -110,10 +130,11 @@ Texture::Texture(std::string filename)
 	//Now generate the OpenGL texture object
 	glGenTextures(1, &(this->textureID));
 	glBindTexture(GL_TEXTURE_2D, this->textureID);
-	glTexImage2D(GL_TEXTURE_2D,0, GL_RGBA, width, height, 0,
-	 	    GL_RGB, GL_UNSIGNED_BYTE, (GLvoid*) image_data);
+	//glTexImage2D(GL_TEXTURE_2D,0, GL_RGBA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, (GLvoid*) image_data);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, width, height, GL_RGB, GL_UNSIGNED_BYTE, (GLvoid*)image_data);
+	glCheckError();
 
 	//clean up memory and close stuff
 	png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);

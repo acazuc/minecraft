@@ -17,14 +17,14 @@ Player::Player(World *world)
 	this->rotationZ = 0;
 }
 
-void	Player::rotation(sf::Window *window)
+void	Player::rotation(sf::Window &window)
 {
 	sf::Vector2i	*center;
 	sf::Vector2i	delta;
 
-	center = new sf::Vector2i(window->getSize().x / 2, window->getSize().y / 2);
-	delta = sf::Mouse::getPosition(*window) - *center;
-	sf::Mouse::setPosition(*center, *window);
+	center = new sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2);
+	delta = sf::Mouse::getPosition(window) - *center;
+	sf::Mouse::setPosition(*center, window);
 	delete (center);
 	this->rotationY += delta.x / 5.;
 	this->rotationX += delta.y / 5.;
