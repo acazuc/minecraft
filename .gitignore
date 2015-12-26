@@ -1,3 +1,4 @@
-*.o
-minecraft
+objs/*.o
+./minecraft
 *.swp
+*/*.swp
