@@ -8,9 +8,9 @@ OBJS_PATH = objs/
 
 INCLUDES_PATH = includes/
 
-SRCS_NAME = main.cpp Window.cpp EventListener.cpp World.cpp Chunk.cpp Block.cpp Player.cpp Texture.cpp
+SRCS_NAME = Main.cpp Window.cpp EventListener.cpp World.cpp Chunk.cpp Block.cpp Player.cpp Texture.cpp
 
-OBJS_NAME = $(SRCS_NAME:.cpp=.o)
+OBJS_NAME = $(SRCS_NAME:.cpp=.opp)
 
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 
@@ -78,7 +78,7 @@ $(NAME): $(OBJS)
 	@echo "\033[1;0m"
 	@$(CPP) $(CPPFLAGS) -o $(NAME) $^ $(LIBRARY) -I$(INCLUDES_PATH)
 
-$(OBJS_PATH)%.o: $(SRCS_PATH)%.cpp
+$(OBJS_PATH)%.opp: $(SRCS_PATH)%.cpp
 	@echo " - Compiling $<"
 	@$(CPP) $(CPPFLAGS) -I$(INCLUDES_PATH) -o $@ -c $<
 
