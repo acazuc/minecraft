@@ -25,11 +25,9 @@ class Player
 		void	moveXZ(bool keyZ, bool keyQ, bool keyS, bool keyD);
 		void	moveUpDown(bool keyLShift, bool keySpace);
 		double	getMovementAngle(bool keyZ, bool keyQ, bool keyS, bool keyD);
-		void	checkCollision();
-		bool	checkCollisionUp(float addY);
-		bool	checkCollisionDown(float addY);
-		void	checkCollisionX();
-		void	checkCollisionZ();
+		bool	checkCollisionY(float addY);
+		bool	checkCollisionX(float addX);
+		bool	checkCollisionZ(float addZ);
 		bool	checkCollideBlock(float x, float y, float z);
 		double	getPositionX() const;
 		double	getPositionY() const;

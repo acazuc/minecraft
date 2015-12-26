@@ -27,7 +27,7 @@ int main()
 	// Mise en place d'une projection perspective
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(90.f, (float)window.getSize().x/(float)window.getSize().y, .1f, 500.f);
+	gluPerspective(90.f, (float)window.getSize().x/(float)window.getSize().y, .01f, 500.f);
 	double count = 0;
 	bool running = true;
 	window.setMouseCursorVisible(false);

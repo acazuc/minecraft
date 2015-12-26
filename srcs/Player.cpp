@@ -66,6 +66,8 @@ void	Player::move()
 void	Player::moveXZ(bool keyZ, bool keyQ, bool keyS, bool keyD)
 {
 	double	angle;
+	float	addX;
+	float	addZ;
 
 	if (keyZ && keyS)
 	{
@@ -80,8 +82,14 @@ void	Player::moveXZ(bool keyZ, bool keyQ, bool keyS, bool keyD)
 	if (keyZ || keyQ || keyS || keyD)
 	{
 		angle = rotationY + getMovementAngle(keyZ, keyQ, keyS, keyD);
-		this->positionX += this->MOVEMENT_SPEED*cos(angle/180.f*M_PI);
-		this->positionZ += this->MOVEMENT_SPEED*sin(angle/180.f*M_PI);
+		addX = this->MOVEMENT_SPEED*cos(angle/180.f*M_PI);
+		addZ = this->MOVEMENT_SPEED*sin(angle/180.f*M_PI);
+		if (checkCollisionX(addX))
+			addX = 0;
+		if (checkCollisionZ(addZ))
+			addZ = 0;
+		this->positionX += addX;
+		this->positionZ += addZ;
 	}
 }
 
@@ -99,9 +107,8 @@ void	Player::moveUpDown(bool keyLShift, bool keySpace)
 		addY = -MOVEMENT_SPEED;
 	else if (keySpace)
 		addY = MOVEMENT_SPEED;
-	if ((addY < 0 && checkCollisionDown(addY))
-		|| (addY > 0 && checkCollisionUp(addY)))
-		addY = 0;
+	if (checkCollisionY(addY))
+		return ;
 	this->positionY += addY;
 }
 
@@ -126,62 +133,71 @@ double	Player::getMovementAngle(bool keyZ, bool keyQ, bool keyS, bool keyD)
 	return (0);
 }
 
-bool	Player::checkCollisionUp(float addY)
+bool	Player::checkCollisionY(float addY)
 {
-	bool	collide;
-
-	collide = false;
-	if (this->positionX - round(this->positionX) > 0) {
-		collide = collide || checkCollideBlock(this->positionX + .2f, this->positionY + addY + .2f + .5f, this->positionZ);
+	if (addY > 0)
+	{
+		if (checkCollideBlock(0, addY + .2f, 0))
+		{
+			this->positionY = round(this->positionY + addY + .2f) - .7f;
+			return (true);
+		}
 	}
-	else if (this->positionX - round(this->positionX) < 0) {
-		collide = collide || checkCollideBlock(this->positionX - .2f, this->positionY + addY + .2f + .5f, this->positionZ);
+	else if (addY < 0)
+	{
+		if (checkCollideBlock(0, addY - 1.7f, 0))
+		{
+			this->positionY = round(this->positionY + addY - 1.7f) + 2.2f;
+			return (true);
+		}
 	}
-	if (this->positionZ - round(this->positionZ) > 0) {
-		collide = collide || checkCollideBlock(this->positionX, this->positionY + addY + .2f + .5f, this->positionZ + .2f);
-	}
-	else if (this->positionZ - round(this->positionZ) < 0) {
-		collide = collide || checkCollideBlock(this->positionX, this->positionY + addY + .2f + .5f, this->positionZ - .2f);
-	}
-	collide = collide || checkCollideBlock(this->positionX, this->positionY + addY + .2f + .5f, this->positionZ);
-	if (collide) {
-		this->positionY = round(this->positionY + addY + .2f) - .7f;
-	}
-	return (collide);
+	return (false);
 }
 
-bool	Player::checkCollisionDown(float addY)
+bool	Player::checkCollisionX(float addX)
 {
-	bool	collide;
-
-	collide = false;
-	if (this->positionX - round(this->positionX) > 0) {
-		collide = collide || checkCollideBlock(this->positionX + .2f, this->positionY + addY - 1.7f - .5f, this->positionZ);
+	if(addX > 0)
+	{
+		if (checkCollideBlock(addX + .2, .19f, 0)
+			|| checkCollideBlock(addX + .2f, -1.69f, 0))
+		{
+			this->positionX = round(this->positionX + addX + .2f) - .7f;
+			return (true);
+		}
 	}
-	else if (this->positionX - round(this->positionX) < 0) {
-		collide = collide || checkCollideBlock(this->positionX - .2f, this->positionY + addY - 1.7f - .5f, this->positionZ);
+	else if (addX < 0)
+	{
+		if (checkCollideBlock(addX - .2f, .19f, 0)
+			|| checkCollideBlock(addX - .2f, -1.69f, 0))
+		{
+			this->positionX = round(this->positionX + addX - .2f) + .7f;
+			return (true);
+		}
 	}
-	if (this->positionZ - round(this->positionZ) > 0) {
-		collide = collide || checkCollideBlock(this->positionX, this->positionY + addY - 1.7f - .5f, this->positionZ + .2f);
-	}
-	else if (this->positionZ - round(this->positionZ) < 0) {
-		collide = collide || checkCollideBlock(this->positionX, this->positionY + addY - 1.7f - .5f, this->positionZ - .2f);
-	}
-	collide = collide || checkCollideBlock(this->positionX, this->positionY + addY - 1.7f - .5f, this->positionZ);
-	if (collide) {
-		this->positionY = round(this->positionY + addY - 1.7f) + 2.2f;
-	}
-	return (collide);
+	return (false);
 }
 
-void	Player::checkCollisionX()
+bool	Player::checkCollisionZ(float addZ)
 {
-
-}
-
-void	Player::checkCollisionZ()
-{
-
+	if (addZ > 0)
+	{
+		if (checkCollideBlock(0, .19f, addZ + .2f)
+			|| checkCollideBlock(0, -1.69f, addZ + .2f))
+		{
+			this->positionZ = round(this->positionZ + addZ + .2f) - .7f;
+			return (true);
+		}
+	}
+	else if (addZ < 0)
+	{
+		if (checkCollideBlock(0, .19f, addZ - .2f)
+			|| checkCollideBlock(0, -1.69f, addZ - .2f))
+		{
+			this->positionZ = round(this->positionZ + addZ - .2f) + .7f;
+			return (true);
+		}
+	}
+	return (false);
 }
 
 bool	Player::checkCollideBlock(float x, float y, float z)
@@ -191,8 +207,11 @@ bool	Player::checkCollideBlock(float x, float y, float z)
 	int		chunkX;
 	int		chunkZ;
 
+	y = round(y + this->positionY);
 	if (y >= 0 && y < Chunk::HEIGHT)
 	{
+		x = round(x + this->positionX);
+		z = round(z + this->positionZ);
 		chunkX = floor(x / 16.) * 16.;
 		chunkZ = floor(z / 16.) * 16.;
 		if ((chunk = this->world->getChunk(chunkX, chunkZ)))
