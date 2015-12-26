@@ -1,6 +1,6 @@
 CPP = clang++-3.5
 
-CPPFLAGS = -Wall -Wextra -Werror
+CPPFLAGS = -Wall -Wextra -Werror -Ofast
 
 SRCS_PATH = srcs/
 
@@ -8,7 +8,7 @@ OBJS_PATH = objs/
 
 INCLUDES_PATH = includes/
 
-SRCS_NAME = main.cpp Window.cpp EventListener.cpp World.cpp Chunk.cpp Block.cpp
+SRCS_NAME = main.cpp Window.cpp EventListener.cpp World.cpp Chunk.cpp Block.cpp Player.cpp
 
 OBJS_NAME = $(SRCS_NAME:.cpp=.o)
 
