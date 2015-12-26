@@ -33,22 +33,23 @@ int main()
 	window.setMouseCursorVisible(false);
 	World	*world = new World();
 	glEnable(GL_TEXTURE_2D);
-	Player	*player = new Player();
 	Texture texture("stone.png");
 	texture.bind();
 	world->draw();
 	while (running)
 	{
 		EventListener::checkEvents(window);
-		player->rotation(&window);
-		player->move();
+		world->getPlayer()->rotation(&window);
+		world->getPlayer()->move();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glRotatef(player->getRotationZ(), 0.f, 0.f, 1.f);
-		glRotatef(player->getRotationX(), 1.f, 0.f, 0.f);
-		glRotatef(player->getRotationY(), 0.f, 1.f, 0.f);
-		glTranslatef(-player->getPositionX(), -player->getPositionY(), -player->getPositionZ());
+		glRotatef(world->getPlayer()->getRotationZ(), 0.f, 0.f, 1.f);
+		glRotatef(world->getPlayer()->getRotationX(), 1.f, 0.f, 0.f);
+		glRotatef(world->getPlayer()->getRotationY(), 0.f, 1.f, 0.f);
+		glTranslatef(-world->getPlayer()->getPositionX()
+			, -world->getPlayer()->getPositionY()
+			, -world->getPlayer()->getPositionZ());
 		world->render();
 		window.display();
 		count += 0.05;

@@ -21,25 +21,29 @@ bool	Block::isVisibleFace(int faceId)
 	if (faceId == 1) //Front
 	{
 		if (this->rZ == 0)
-			return (isVisibleFacePart(this->chunk->getX(), this->chunk->getZ() - Chunk::WIDTH, this->rX, this->y, Chunk::WIDTH - 1));
+			return (isVisibleFacePart(this->chunk->getX(), this->chunk->getZ() - Chunk::WIDTH
+				, this->rX, this->y, Chunk::WIDTH - 1));
 		return (this->chunk->getBlocks()[this->rX][this->y][this->rZ - 1]->isTransparent());
 	}
 	else if (faceId == 2) //Back
 	{
 		if (this->rZ == Chunk::WIDTH - 1)
-			return (isVisibleFacePart(this->chunk->getX(), this->chunk->getZ() + Chunk::WIDTH, this->rX, this->y, 0));
+			return (isVisibleFacePart(this->chunk->getX(), this->chunk->getZ() + Chunk::WIDTH
+				, this->rX, this->y, 0));
 		return (this->chunk->getBlocks()[this->rX][this->y][this->rZ + 1]->isTransparent());
 	}
 	else if (faceId == 3) //Left
 	{
 		if (this->rX == 0)
-			return (isVisibleFacePart(this->chunk->getX() - Chunk::WIDTH, this->chunk->getZ(), Chunk::WIDTH - 1, this->y, this->rZ));
+			return (isVisibleFacePart(this->chunk->getX() - Chunk::WIDTH
+				, this->chunk->getZ(), Chunk::WIDTH - 1, this->y, this->rZ));
 		return (this->chunk->getBlocks()[this->rX - 1][this->y][this->rZ]->isTransparent());
 	}
 	else if (faceId == 4) //Right
 	{
 		if (this->rX == Chunk::WIDTH - 1)
-			return (isVisibleFacePart(this->chunk->getX() + Chunk::WIDTH, this->chunk->getZ(), 0, this->y, this->rZ));
+			return (isVisibleFacePart(this->chunk->getX() + Chunk::WIDTH
+				, this->chunk->getZ(), 0, this->y, this->rZ));
 		return (this->chunk->getBlocks()[this->rX + 1][this->y][this->rZ]->isTransparent());
 	}
 	else if (faceId == 5) //Bottom
@@ -59,18 +63,11 @@ bool	Block::isVisibleFace(int faceId)
 
 bool	Block::isVisibleFacePart(int chunkX, int chunkZ, int blockX, int blockY, int blockZ)
 {
-	std::vector<Chunk*>	*chunks;
-	unsigned int		count;
+	Chunk	*chunk;
 
-	chunks = this->chunk->getWorld()->getChunks();
-	count = 0;
-	while (count < chunks->size())
+	if ((chunk = this->chunk->getWorld()->getChunk(chunkX, chunkZ)))
 	{
-		if ((*chunks)[count]->getX() == chunkX && (*chunks)[count]->getZ() == chunkZ)
-		{
-			return ((*chunks)[count]->getBlocks()[blockX][blockY][blockZ]->isTransparent());
-		}
-		count++;
+		return (chunk->getBlocks()[blockX][blockY][blockZ]->isTransparent());
 	}
 	return (true);
 }
@@ -78,6 +75,11 @@ bool	Block::isVisibleFacePart(int chunkX, int chunkZ, int blockX, int blockY, in
 bool	Block::isTransparent()
 {
 	return (!this->type);
+}
+
+bool	Block::isSolid()
+{
+	return (this->type);
 }
 
 void	Block::draw()
@@ -153,4 +155,19 @@ void	Block::draw()
 		glVertex3f(x+.5f, y+.5f, z+.5f);
 	}
 	glEnd();
+}
+
+int		Block::getX() const
+{
+	return (this->x);
+}
+
+int		Block::getY() const
+{
+	return (this->y);
+}
+
+int		Block::getZ() const
+{
+	return (this->z);
 }

@@ -97,7 +97,9 @@ void	EventListener::mouseEvent(sf::Event event)
 	{
 		int		mouseX = event.mouseMove.x;
 		int		mouseY = event.mouseMove.y;
-		std::cout << "Mouse x: " << mouseX << ", Mouse y: " << mouseY << std::endl;
+		(void)mouseX;
+		(void)mouseY;
+		//std::cout << "Mouse x: " << mouseX << ", Mouse y: " << mouseY << std::endl;
 	}
 }
 

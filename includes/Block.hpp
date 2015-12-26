@@ -19,7 +19,11 @@ class Block
 	public:
 		Block(Chunk *chunk, long x, long y, long z, char type);
 		bool	isTransparent();
+		bool	isSolid();
 		void	draw();
+		int		getX() const;
+		int		getY() const;
+		int		getZ() const;
 };
 
 #endif

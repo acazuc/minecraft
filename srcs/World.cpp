@@ -1,8 +1,8 @@
 #include <SFML/OpenGL.hpp>
 #include <vector>
+#include "Player.hpp"
 #include "World.hpp"
 #include "Chunk.hpp"
-#include <iostream>
 
 World::World()
 {
@@ -23,6 +23,7 @@ World::World()
 	chunks->push_back(chunk);
 	chunk = new Chunk(this, 32, 32);
 	chunks->push_back(chunk);
+	this->player = new Player(this);
 }
 
 World::~World()
@@ -65,4 +66,26 @@ void	World::render()
 std::vector<Chunk*>	*World::getChunks()
 {
 	return (this->chunks);
+}
+
+Player	*World::getPlayer()
+{
+	return (this->player);
+}
+
+Chunk	*World::getChunk(int x, int z)
+{
+	unsigned int	count;
+
+	count = 0;
+	while (count < this->chunks->size())
+	{
+		if ((*this->chunks)[count]->getX() == x
+			&& (*this->chunks)[count]->getZ() == z)
+		{
+			return ((*this->chunks)[count]);
+		}
+		count++;
+	}
+	return (NULL);
 }
